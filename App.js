@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font'
-
+import MealsNavigator from './navigation/MealsNavigator';
 
 const fetchFonts = () => {
   return Font.loadAsync({
-    'open-sans': require('./assets/fonts/OpenSans-Regular.tff'),
-    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.tff')
+    'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
   })
 }
 
@@ -20,14 +20,12 @@ export default function App() {
     return (<AppLoading
       startAsync={fetchFonts}
       onFinish={() => { setIsFontLoaded(true) }}
+      onError={(error)=>console.log(error)}
     />)
   }
 
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <MealsNavigator />
   );
 }
 
