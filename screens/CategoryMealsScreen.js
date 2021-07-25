@@ -16,6 +16,16 @@ const CategoryMealsScreen = props => {
                     })
                 }}
             />
+
+            <Button 
+
+            title= "Go Back" onPress={()=>{
+                // Can only be used on a stack navigator
+                // props.navigation.pop()
+                // Can be used with other navigators
+                props.navigation.goBack()
+            }}
+            />
         </View>
     )
 }
