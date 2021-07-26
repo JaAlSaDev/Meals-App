@@ -2,42 +2,51 @@ import {
     StyleSheet,
     Text,
     View,
-    Button
+    Button,
+    FlatList
 } from 'react-native'
 import React from 'react'
-import { CATEGORIES } from '../data/dummy-data';
-
+import { CATEGORIES, MEALS } from '../data/dummy-data';
+import MealItem from '../components/MealItem';
 
 const CategoryMealsScreen = props => {
+
+    const renderMealItem = itemData => {
+        return <MealItem
+            title={itemData.item.title}
+            image={itemData.item.imageUrl}
+            duration={itemData.item.duration}
+            complexity={itemData.item.complexity}
+            affordability={itemData.item.affordability}
+
+            onSelectMeal={() => {
+                props.navigation.navigate({
+                    routeName: 'MealDetail',
+                    params: {
+                        mealID: itemData.item.id
+                    }
+                })
+            }}
+        />
+    }
+
+
     const catID = props.navigation.getParam('categoryID');
 
 
     const selectedCategory = CATEGORIES.find(category => category.id === catID)
 
+    const displayedMeals = MEALS.filter(meal => {
+        return meal.categoryIds.indexOf(catID) > -1
+    })
     return (
         <View style={styles.screen}>
-            <Text>The Category Meals Screen!</Text>
-            <Text>{selectedCategory.title}</Text>
-            <Button
+            <FlatList
+                data={displayedMeals}
+                keyExtractor={(item, index) => item.id}
+                renderItem={renderMealItem}
 
-                title="Go to Details!"
-
-                onPress={() => {
-
-                    props.navigation.navigate({
-                        routeName: "MealDetail"
-                    })
-                }}
-            />
-
-            <Button
-
-                title="Go Back" onPress={() => {
-                    // Can only be used on a stack navigator
-                    // props.navigation.pop()
-                    // Can be used with other navigators
-                    props.navigation.goBack()
-                }}
+                style={{ width: '100%' }}
             />
         </View>
     )
@@ -53,7 +62,7 @@ CategoryMealsScreen.navigationOptions = (navigationData) => {
 
     return {
         headerTitle: selectedCategory.title,
-       
+
     }
 
 }
