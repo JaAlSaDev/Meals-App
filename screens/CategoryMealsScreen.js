@@ -1,19 +1,19 @@
 import {
-    StyleSheet,
-    Text,
-    View,
-    Button,
-    FlatList
+    StyleSheet
 } from 'react-native'
+
+import {useSelector} from 'react-redux'
 import React from 'react'
-import { CATEGORIES, MEALS } from '../data/dummy-data';
+import { CATEGORIES } from '../data/dummy-data';
 import MealList from '../components/MealList';
 
 
 const CategoryMealsScreen = props => {
     const catID = props.navigation.getParam('categoryID');
 
-    const displayedMeals = MEALS.filter(meal => {
+    const availableMeals= useSelector(state=> state.meals.filteredMeals)
+    
+    const displayedMeals = availableMeals.filter(meal => {
         return meal.categoryIds.indexOf(catID) > -1
     })
 
