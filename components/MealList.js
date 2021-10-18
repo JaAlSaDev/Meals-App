@@ -1,23 +1,30 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { StyleSheet, View, FlatList } from 'react-native'
 import MealItem from './MealItem'
 
 const MealList = props => {
+    const favoriteMeals = useSelector(state => state.meals.favoriteMeals)
 
     const renderMealItem = itemData => {
+        const meal = itemData.item
+        const mealId=meal.id
+        const isFavorite= favoriteMeals.some(meal => meal.id === mealId)
+
         return <MealItem
-            title={itemData.item.title}
-            image={itemData.item.imageUrl}
-            duration={itemData.item.duration}
-            complexity={itemData.item.complexity}
-            affordability={itemData.item.affordability}
+            title={meal.title}
+            image={meal.imageUrl}
+            duration={meal.duration}
+            complexity={meal.complexity}
+            affordability={meal.affordability}
 
             onSelectMeal={() => {
                 props.navigation.navigate({
                     routeName: 'MealDetail',
                     params: {
-                        mealID: itemData.item.id,
-                        mealTitle: itemData.item.title
+                        mealID: meal.id,
+                        mealTitle: meal.title,
+                        isFav: isFavorite
                     }
                 })
             }}

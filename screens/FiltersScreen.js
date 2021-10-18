@@ -5,12 +5,14 @@ import {
     Switch,
     Platform
 } from 'react-native'
+
 import React, {
     useState,
     useEffect,
     useCallback
 } from 'react'
-
+import { useDispatch } from 'react-redux'
+import { setFilters } from '../store/actions/meals'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderButton from '../components/HeaderButton'
 
@@ -41,6 +43,7 @@ const FiltersScreen = props => {
     const [isVegan, setIsVegan] = useState(false)
     const [isVegetarian, setIsVegetarian] = useState(false)
 
+    const dispatch = useDispatch();
 
     // Only save a new version of this function when its dependencies change
     const saveFilters = useCallback(() => {
@@ -50,8 +53,8 @@ const FiltersScreen = props => {
             isVegan: isVegan,
             isVegetarian: isVegetarian,
         }
+        dispatch(setFilters(appliedFilters))
 
-        console.log(appliedFilters);
 
     }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian])
 
@@ -100,6 +103,8 @@ const FiltersScreen = props => {
 
 FiltersScreen.navigationOptions = navigationData => {
 
+    const save=navigationData.navigation.getParam('save')
+
     return {
         headerTitle: 'Filters Meal',
 
@@ -119,7 +124,7 @@ FiltersScreen.navigationOptions = navigationData => {
             <Item
                 title="Save"
                 iconName='ios-save'
-                onPress={navigationData.navigation.getParam('save')}
+                onPress={save}
             />
 
         </HeaderButtons>)

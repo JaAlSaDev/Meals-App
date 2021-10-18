@@ -6,13 +6,14 @@ import * as Font from 'expo-font'
 import MealsNavigator from './navigation/MealsNavigator';
 import { enableScreens } from 'react-native-screens'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './store/reducers/root'
 enableScreens();
 
 
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, composeWithDevTools());
 
 
 
